@@ -22,6 +22,7 @@ feature 'restaurants' do
   end
 
   context 'creating restaurants' do
+
     scenario 'prompts user to fill out a form, then displays the new restaurant' do
       visit '/restaurants'
       click_link 'Add restaurant'
@@ -30,6 +31,17 @@ feature 'restaurants' do
       click_button 'Create Restaurant'
       expect(page).to have_content 'KFC'
       expect(current_path).to eq '/restaurants'
+    end
+
+    context 'an invalid restaurant' do
+      it 'does not allow to submit a name that is too short' do
+        visit '/restaurants'
+        click_link 'Add restaurant'
+        fill_in 'Name', with: 'kf'
+        click_button 'Create Restaurant'
+        expect(page).not_to have_css 'h2', text: 'kf'
+        expect(page).to have_content 'error'
+      end
     end
   end
 
@@ -69,5 +81,5 @@ feature 'restaurants' do
       expect(page).to have_content 'Restaurant deleted successfully'
     end
   end
-  
+
 end
