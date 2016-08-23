@@ -25,8 +25,36 @@ feature 'restaurants' do
       visit '/restaurants'
       click_link 'Add a restaurant'
       fill_in 'Name', with: 'KFC'
+      fill_in 'Description', with: 'Terrible, never go here'
       click_button 'Create Restaurant'
       expect(page).to(have_content('KFC'))
+      expect(current_path).to(eq('/restaurants'))
+    end
+  end
+
+  context 'viewing restaurants' do
+    let!(:kfc) { Restaurant.create(name: 'KFC', description: 'Terrible, never go here') }
+
+    scenario 'lets a user view a restaurant' do
+      visit '/restaurants'
+      click_link 'KFC'
+      expect(page).to(have_content('KFC'))
+      expect(page).to(have_content('Terrible, never go here'))
+      expect(current_path).to(eq("/restaurants/#{kfc.id}"))
+    end
+  end
+
+  context 'editing restaurants' do
+    before { Restaurant.create name: 'KFC', description: 'Awful, just terrible' }
+
+    scenario 'let a user edit a restaurant' do
+      visit '/restaurants'
+      click_link 'Edit KFC'
+      fill_in 'Name', with: 'Kentucky Fried Chicken'
+      fill_in 'Description', with: 'Awful, just terrible'
+      click_button 'Update Restaurant'
+      expect(page).to(have_content('Kentucky Fried Chicken'))
+      expect(page).not_to(have_content('KFC'))
       expect(current_path).to(eq('/restaurants'))
     end
   end
