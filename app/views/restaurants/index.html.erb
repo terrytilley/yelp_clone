@@ -2,10 +2,11 @@
   <% @restaurants.all.each do |restaurant| %>
     <%= link_to restaurant.name, restaurant_path(restaurant) %>
     <%= link_to "Edit #{restaurant.name}", edit_restaurant_path(restaurant) %>
+    <%= link_to "Delete #{restaurant.name}", restaurant_path(restaurant), method: :delete %>
     <p><%= restaurant.description %></p>
   <% end %>
 <% else %>
   <h1>No restaurants yet</h1>
 <% end %>
 
-<a href='/restaurants/new'>Add a restaurant</a>
+<%= link_to "Add a restaurant", new_restaurant_path, :class => 'btn btn-primary' %>
