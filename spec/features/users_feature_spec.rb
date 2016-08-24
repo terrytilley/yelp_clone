@@ -20,10 +20,10 @@ feature "Users can sign in and out" do
   context "users signed in on the homepage" do
     before do
       visit '/'
-      click_link 'sign up'
-      fill_in 'email', with: 'mali@mali.com'
-      fill_in 'password', with: 'secret'
-      fill_in 'password confirmation', with: 'secret'
+      click_link 'Sign up'
+      fill_in 'Email', with: 'mali@mali.com'
+      fill_in 'Password', with: 'secret'
+      fill_in 'Password confirmation', with: 'secret'
       click_button 'Sign up'
     end
 
