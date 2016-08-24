@@ -1,6 +1,7 @@
 class RestaurantsController < ApplicationController
 
   before_action :find_by_params, only: [:show, :edit, :update, :destroy]
+  before_action :authenticate_user!, :except => [:index, :show]
 
   def index
     @restaurants = Restaurant.all
@@ -13,7 +14,7 @@ class RestaurantsController < ApplicationController
   def create
     @restaurant = Restaurant.create(restaurant_params)
     if @restaurant.save
-      redirect_to '/restaurants'
+      redirect_to restaurants_path
     else
       render 'new'
     end

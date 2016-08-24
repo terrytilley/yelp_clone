@@ -20,6 +20,12 @@ feature 'restaurants' do
     end
   end
 
+context 'user is signed in' do
+
+  before do
+    user_sign_up
+  end
+
   context 'creating restaurants' do
     scenario 'prompts user to fill out a form, then displays the new restaurant' do
       visit '/restaurants'
@@ -80,6 +86,39 @@ feature 'restaurants' do
       expect(page).not_to(have_content('KFC'))
       expect(page).to(have_content('Restaurant deleted successfully'))
     end
+  end
+
+end
+
+  context 'when user is not signed in' do
+   context 'creating restaurants' do
+     scenario 'cannot create a restaurant when not signed in' do
+       visit '/restaurants'
+       click_link 'Add a restaurant'
+       expect(current_path).to eq '/users/sign_in'
+     end
+   end
+
+   context 'editing restaurants' do
+     before { Restaurant.create name: 'KFC', description: 'Awful, just terrible' }
+
+     scenario 'a user can not edit a restaurant' do
+       visit '/restaurants'
+       click_link 'Edit KFC'
+       expect(current_path).to eq '/users/sign_in'
+     end
+   end
+
+   context 'deleting restaurants' do
+     before { Restaurant.create name: 'KFC', description: 'Deep fried goodness'}
+
+     scenario 'removes a restaurant when a user clicks delete' do
+       visit '/restaurants'
+       click_link 'Delete KFC'
+       expect(current_path).to eq '/users/sign_in'
+     end
+   end
+
   end
 
 end
