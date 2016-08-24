@@ -9,17 +9,6 @@ feature 'restaurants' do
     end
   end
 
-  context 'restaurants have been added' do
-    before do
-      Restaurant.create(name: 'KFC')
-    end
-    scenario 'display restaurants' do
-      visit '/restaurants'
-      expect(page).to(have_content("KFC"))
-      expect(page).not_to(have_content("No restaurants yet"))
-    end
-  end
-
 context 'user is signed in' do
 
   before do
@@ -51,19 +40,23 @@ context 'user is signed in' do
   end
 
   context 'viewing restaurants' do
-    let!(:kfc) { Restaurant.create(name: 'KFC', description: 'Terrible, never go here') }
+
+    before do
+      user_create_restaurant
+    end
 
     scenario 'lets a user view a restaurant' do
       visit '/restaurants'
       click_link 'KFC'
       expect(page).to(have_content('KFC'))
       expect(page).to(have_content('Terrible, never go here'))
-      expect(current_path).to(eq("/restaurants/#{kfc.id}"))
     end
   end
 
   context 'editing restaurants' do
-    before { Restaurant.create name: 'KFC', description: 'Awful, just terrible' }
+    before do
+      user_create_restaurant
+    end
 
     scenario 'let a user edit a restaurant' do
       visit '/restaurants'
@@ -78,7 +71,9 @@ context 'user is signed in' do
   end
 
   context 'deleting restaurants' do
-    before { Restaurant.create name: 'KFC', description: 'Deep fried goodness'}
+    before do
+      user_create_restaurant
+    end
 
     scenario 'removes a restaurant when a user clicks delete' do
       visit '/restaurants'
@@ -100,7 +95,12 @@ end
    end
 
    context 'editing restaurants' do
-     before { Restaurant.create name: 'KFC', description: 'Awful, just terrible' }
+
+    before do
+      user_sign_up
+      user_create_restaurant
+      user_sign_out
+    end
 
      scenario 'a user can not edit a restaurant' do
        visit '/restaurants'
@@ -110,9 +110,14 @@ end
    end
 
    context 'deleting restaurants' do
-     before { Restaurant.create name: 'KFC', description: 'Deep fried goodness'}
 
-     scenario 'removes a restaurant when a user clicks delete' do
+     before do
+       user_sign_up
+       user_create_restaurant
+       user_sign_out
+     end
+
+     scenario 'can not delete a restaurant' do
        visit '/restaurants'
        click_link 'Delete KFC'
        expect(current_path).to eq '/users/sign_in'

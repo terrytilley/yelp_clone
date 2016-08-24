@@ -1,7 +1,10 @@
 require 'rails_helper'
 
 feature 'reviewing' do
-  before { Restaurant.create name: 'KFC'}
+  before do
+    user_sign_up
+    user_create_restaurant
+  end
 
   scenario 'allows users to leave a review using a form' do
     visit '/restaurants'
