@@ -1,13 +1,21 @@
 <% if @restaurants.all.any? %>
   <% @restaurants.all.each do |restaurant| %>
-    <%= link_to restaurant.name, restaurant_path(restaurant) %>
-    <%= link_to "Review #{restaurant.name}", new_restaurant_review_path(restaurant) %>
-    <%= link_to "Edit #{restaurant.name}", edit_restaurant_path(restaurant) %>
-    <%= link_to "Delete #{restaurant.name}", restaurant_path(restaurant), method: :delete %>
-    <% restaurant.reviews.each do |review| %>
-      <%= review.thoughts %>
-    <% end %>
+    <h2><%= link_to restaurant.name, restaurant_path(restaurant) %></h2>
+
+    <div class="btn-group btn-group-sm" role="group" aria-label="...">
+      <%= link_to "Review #{restaurant.name}", new_restaurant_review_path(restaurant), :class => 'btn btn-default' %>
+      <%= link_to "Edit #{restaurant.name}", edit_restaurant_path(restaurant), :class => 'btn btn-default' %>
+      <%= link_to "Delete #{restaurant.name}", restaurant_path(restaurant), method: :delete, :class => 'btn btn-default' %>
+    </div>
+    <br><br>
     <p><%= restaurant.description %></p>
+
+    <h3>Reviews</h3>
+    <hr>
+    <% restaurant.reviews.each do |review| %>
+      <p><%= review.thoughts %></p>
+      <hr>
+    <% end %>
   <% end %>
 <% else %>
   <h1>No restaurants yet</h1>
