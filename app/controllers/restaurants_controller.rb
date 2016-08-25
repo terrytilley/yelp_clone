@@ -51,7 +51,7 @@ class RestaurantsController < ApplicationController
 
   def restaurant_owner
     @restaurant = Restaurant.find(params[:id])
-    unless @restaurant.user_id == current_user
+    unless @restaurant.user_id == current_user.id
       flash[:notice] = 'Permission denied: only owner has edit/delete privileges'
       redirect_to restaurants_path
     end
