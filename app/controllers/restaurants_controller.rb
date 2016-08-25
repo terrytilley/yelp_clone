@@ -2,6 +2,7 @@ class RestaurantsController < ApplicationController
 
   before_action :find_by_params, only: [:show, :edit, :update, :destroy]
   before_action :authenticate_user!, :except => [:index, :show]
+  before_action :restaurant_owner, only: [:update, :destroy, :edit]
 
   def index
     @restaurants = Restaurant.all
@@ -29,13 +30,13 @@ class RestaurantsController < ApplicationController
 
   def update
     @restaurant.update(restaurant_params)
-    redirect_to '/restaurants'
+    redirect_to restaurants_path
   end
 
   def destroy
     @restaurant.destroy
     flash[:notice] = 'Restaurant deleted successfully'
-    redirect_to '/restaurants'
+    redirect_to restaurants_path
   end
 
   private
@@ -46,6 +47,14 @@ class RestaurantsController < ApplicationController
 
   def find_by_params
     @restaurant = Restaurant.find(params[:id])
+  end
+
+  def restaurant_owner
+    @restaurant = Restaurant.find(params[:id])
+    unless @restaurant.user_id == current_user
+      flash[:notice] = 'Permission denied: only owner has edit/delete privileges'
+      redirect_to restaurants_path
+    end
   end
 
 end
