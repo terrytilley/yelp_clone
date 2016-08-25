@@ -6,6 +6,9 @@ class ReviewsController < ApplicationController
   end
 
   def create
+    if current_user.has_reviewed? @restaurant
+      raise 'User has already reviewed this restaurant'
+    end
     @restaurant = Restaurant.find(params[:restaurant_id])
     @restaurant.reviews.create(review_params)
     redirect_to '/restaurants'
