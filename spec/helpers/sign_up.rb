@@ -12,10 +12,10 @@ module SignupHelpers
 
   def add_restaurant(name: 'KFC', description: 'Deep fried goodness')
     visit '/restaurants'
-    click_link 'Add restaurant'
+    click_link 'Add a restaurant'
     fill_in :restaurant_name, with: name
     fill_in :restaurant_description, with: description
     click_button 'Create Restaurant'
   end
-  
+
 end
