@@ -7,6 +7,15 @@ def user_sign_up
   click_button 'Sign up'
 end
 
+def user_sign_up_2
+  visit '/'
+  click_link 'Sign up'
+  fill_in 'Email', with: 'terry@terry.com'
+  fill_in 'Password', with: 'qwerty'
+  fill_in 'Password confirmation', with: 'qwerty'
+  click_button 'Sign up'
+end
+
 def user_create_restaurant
   visit '/restaurants'
   click_link 'Add a restaurant'
