@@ -24,6 +24,14 @@ def user_create_restaurant
   click_button 'Create Restaurant'
 end
 
+def user_create_review(thoughts, rating)
+  visit '/restaurants'
+  click_link 'Review KFC'
+  fill_in 'Thoughts', with: thoughts
+  select rating, from: 'Rating'
+  click_button 'Leave Review'
+end
+
 def user_sign_out
   visit '/'
   click_link 'Sign out'
