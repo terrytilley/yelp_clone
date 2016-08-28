@@ -2,6 +2,7 @@
 <% if @restaurants.any? %>
   <% @restaurants.each do |restaurant| %>
     <h2><%= link_to restaurant.name, restaurant_path(restaurant) %></h2>
+    <div><%= image_tag restaurant.image.url(:thumb), :class => 'img-responsive' %></div>
 
     <% if restaurant.reviews.any? %>
       <h3>Reviews:</h3>
