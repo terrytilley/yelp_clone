@@ -1,7 +1,5 @@
 $(document).ready(function() {
 
-  console.log("1");
-
   $('.endorsements-link').on('click', function(event){
       event.preventDefault();
 
